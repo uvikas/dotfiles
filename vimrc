@@ -1,11 +1,11 @@
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " General settings
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
 " Indent style
-set shiftwidth=2                " two spaces per indent
-set tabstop=2                   " number of spaces per tab in display
-set softtabstop=2               " number of spaces per tab when inserting
+set shiftwidth=4                " two spaces per indent
+set tabstop=4                   " number of spaces per tab in display
+set softtabstop=4               " number of spaces per tab when inserting
 set expandtab                   " substitute spaces for tabs
 
 " Filetype
@@ -55,6 +55,8 @@ noremap <C-k> <C-w>k
 
 " Line numbers
 set nu
+set relativenumber
+colorscheme default 
 
 " New line at the end of files
 set eol
