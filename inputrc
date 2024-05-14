@@ -1,2 +1,20 @@
 # Vi bindings
 set editing-mode vi
+
+# Enable ctrl-a for moving to the beginning of the line
+"\C-a": beginning-of-line
+
+# Enable ctrl-e for moving to the end of the line
+"\C-e": end-of-line
+
+# Enable alt-left for moving to the previous word
+"\e[1;3D": backward-word
+
+# Enable alt-right for moving to the next word
+"\e[1;3C": forward-word
+
+# Enable ctrl-k to delete from the cursor to the end of the line
+"\C-k": kill-line
+
+# Enable ctrl-u to delete from the cursor to the beginning of the line
+"\C-u": unix-line-discard
