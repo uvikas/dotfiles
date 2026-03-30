@@ -1,52 +1,21 @@
 #!/bin/bash
 #
-# Sets up symlinks for dotfiles.
+# Basic dotfiles setup (platform-agnostic).
+# Symlinks vim, inputrc, and git configs.
+#
+# Usage:
+#   cd ~/dotfiles && ./setup.sh
+#
+# Idempotent — safe to re-run.
 
-# Asks a yes/no question
-function ask {
-  local question="$1"
-  read -p "$question? (y/N) "
-  local yn=$(echo "$REPLY" | tr "A-Z" "a-z")
-  test "$yn" == 'y' -o "$yn" == 'yes'
-}
+set -euo pipefail
+source "$(cd "$(dirname "$0")" && pwd)/lib.sh"
 
-# Symlinks a file
-function symlink {
-  local from=$1
-  local from_p="$(pwd)/$from"
-  local to=$2
-  local to_p="$HOME/$to"
+info "Setting up basic dotfiles..."
 
-  if [ ! -e "$from_p" ]; then
-    printf "Error: $from_p does not exist\n"
-    return 1
-  fi
+symlink_to "inputrc"    "$HOME/.inputrc"
+symlink_to "vimrc"      "$HOME/.vimrc"
+symlink_to "gitconfig"  "$HOME/.gitconfig"
 
-  if [ ! -e "$to_p" ]; then
-    printf "Linking: ~/$to -> $from\n"
-    ln -s "$from_p" "$to_p"
-  else
-    local to_l=$(readlink "$to_p")
-    if [ "$?" == 0 -a \( "$to_l" == "$from_p" \) ]; then
-      printf "Link exists: ~/$to -> $from\n"
-    else
-      printf "File exists: $to\n"
-      if ask "Overwrite"; then
-        rm -f "$to_p"
-        symlink "$from" "$to"
-      fi
-    fi
-  fi
-}
-
-# Symlinks a file as dotfile
-function symlink_dot {
-  symlink "$1" ".$1"
-}
-
-# Dotfiles to symlink
-#symlink_dot "bashrc"
-symlink_dot "bash_profile"
-symlink_dot "inputrc"
-symlink_dot "vimrc"
-symlink_dot "gitconfig"
+echo ""
+ok "Basic setup complete."

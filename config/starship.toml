@@ -1,0 +1,93 @@
+# Cyberpunk / Retro Hacker Starship Prompt
+# Neon colors on dark — sci-fi terminal aesthetic
+
+format = """
+[](fg:#9A348E)\
+$os\
+[](bg:#DA627D fg:#9A348E)\
+$directory\
+[](fg:#DA627D bg:#FCA17D)\
+$git_branch\
+$git_status\
+[](fg:#FCA17D bg:#86BBD8)\
+$python\
+$rust\
+$golang\
+$nodejs\
+[](fg:#86BBD8 bg:#06969A)\
+$docker_context\
+$conda\
+[](fg:#06969A bg:#33658A)\
+$time\
+[ ](fg:#33658A)\
+$line_break\
+$character"""
+
+[os]
+disabled = false
+style = "bg:#9A348E fg:#090c0c"
+
+[os.symbols]
+Macos = "  "
+
+[directory]
+style = "bg:#DA627D fg:#090c0c"
+format = "[ $path ]($style)"
+truncation_length = 3
+truncation_symbol = ".../"
+
+[directory.substitutions]
+"Documents" = "DOC"
+"Downloads" = "DL"
+
+[git_branch]
+symbol = ""
+style = "bg:#FCA17D fg:#090c0c"
+format = '[ $symbol $branch ]($style)'
+
+[git_status]
+style = "bg:#FCA17D fg:#090c0c"
+format = '[$all_status$ahead_behind ]($style)'
+
+[python]
+symbol = ""
+style = "bg:#86BBD8 fg:#090c0c"
+format = '[ $symbol ($version)(\($virtualenv\)) ]($style)'
+
+[rust]
+symbol = ""
+style = "bg:#86BBD8 fg:#090c0c"
+format = '[ $symbol ($version) ]($style)'
+
+[golang]
+symbol = ""
+style = "bg:#86BBD8 fg:#090c0c"
+format = '[ $symbol ($version) ]($style)'
+
+[nodejs]
+symbol = ""
+style = "bg:#86BBD8 fg:#090c0c"
+format = '[ $symbol ($version) ]($style)'
+
+[docker_context]
+symbol = ""
+style = "bg:#06969A fg:#090c0c"
+format = '[ $symbol $context ]($style)'
+
+[conda]
+style = "bg:#06969A fg:#090c0c"
+format = '[ $symbol $environment ]($style)'
+
+[time]
+disabled = false
+time_format = "%R"
+style = "bg:#33658A"
+format = '[  $time ]($style)'
+
+[character]
+success_symbol = "[>](bold #00ff9f)"
+error_symbol = "[>](bold #ff0055)"
+vimcmd_symbol = "[<](bold #00ff9f)"
+
+[line_break]
+disabled = false
