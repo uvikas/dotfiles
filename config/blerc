@@ -1,0 +1,4 @@
+# ble.sh configuration
+
+# Autosuggestion: dim gray text, no background highlight
+ble-face -s auto_complete 'fg=#585b70'

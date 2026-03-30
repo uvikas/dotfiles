@@ -130,7 +130,23 @@ else
 fi
 
 # ============================================================
-# 8. Nerd Fonts
+# 8. ble.sh (Bash Line Editor — autosuggestions, syntax highlighting)
+# ============================================================
+info "Checking ble.sh..."
+BLESH_DIR="$HOME/.local/share/blesh"
+if [[ -f "$BLESH_DIR/ble.sh" ]]; then
+  ok "Already installed: ble.sh"
+else
+  info "Installing ble.sh..."
+  tmpdir=$(mktemp -d)
+  git clone --recursive --depth 1 https://github.com/akinomyoga/ble.sh.git "$tmpdir/ble.sh"
+  make -C "$tmpdir/ble.sh" install PREFIX="$HOME/.local"
+  rm -rf "$tmpdir"
+  ok "Installed: ble.sh"
+fi
+
+# ============================================================
+# 9. Nerd Fonts
 # ============================================================
 info "Installing Nerd Fonts..."
 
@@ -165,10 +181,11 @@ fc-cache -f "$FONT_DIR"
 ok "Font cache updated"
 
 # ============================================================
-# 9. Symlink config files
+# 10. Symlink config files
 # ============================================================
 info "Symlinking config files..."
 
+symlink_to "config/blerc"                "$HOME/.blerc"
 symlink_to "config/starship-linux.toml"  "$HOME/.config/starship.toml"
 symlink_to "config/bat/config"           "$HOME/.config/bat/config"
 symlink_to "config/kitty/kitty.conf"     "$HOME/.config/kitty/kitty.conf"
@@ -176,7 +193,7 @@ symlink_to "config/kitty/cyberpunk.conf" "$HOME/.config/kitty/cyberpunk.conf"
 symlink_to "config/tmux/tmux.conf"       "$HOME/.config/tmux/tmux.conf"
 
 # ============================================================
-# 10. Wire cyberpunk-linux.bash into .bashrc
+# 11. Wire cyberpunk-linux.bash into .bashrc
 # ============================================================
 info "Configuring shell..."
 
@@ -206,7 +223,49 @@ else
 fi
 
 # ============================================================
-# 11. Done
+# 12. GNOME Terminal theme (Catppuccin Mocha)
+# ============================================================
+info "Configuring GNOME Terminal..."
+
+if command -v dconf &>/dev/null && command -v gsettings &>/dev/null; then
+  GT_PROFILE=$(gsettings get org.gnome.Terminal.ProfilesList default 2>/dev/null | tr -d "'")
+  if [[ -n "$GT_PROFILE" ]]; then
+    GT_PATH="/org/gnome/terminal/legacy/profiles:/:${GT_PROFILE}/"
+
+    dconf write "${GT_PATH}visible-name" "'Cyberpunk'"
+    dconf write "${GT_PATH}use-system-font" "false"
+    dconf write "${GT_PATH}font" "'JetBrainsMono Nerd Font 12'"
+    dconf write "${GT_PATH}cursor-shape" "'ibeam'"
+    dconf write "${GT_PATH}cursor-blink-mode" "'on'"
+    dconf write "${GT_PATH}cursor-foreground-color" "'#1e1e2e'"
+    dconf write "${GT_PATH}cursor-background-color" "'#f5e0dc'"
+    dconf write "${GT_PATH}cursor-colors-set" "true"
+    dconf write "${GT_PATH}use-transparent-background" "true"
+    dconf write "${GT_PATH}background-transparency-percent" "20"
+    dconf write "${GT_PATH}use-theme-colors" "false"
+    dconf write "${GT_PATH}foreground-color" "'#cdd6f4'"
+    dconf write "${GT_PATH}background-color" "'#1e1e2e'"
+    dconf write "${GT_PATH}highlight-foreground-color" "'#1e1e2e'"
+    dconf write "${GT_PATH}highlight-background-color" "'#f5e0dc'"
+    dconf write "${GT_PATH}highlight-colors-set" "true"
+    dconf write "${GT_PATH}palette" "['#45475a','#f38ba8','#a6e3a1','#f9e2af','#89b4fa','#cba6f7','#94e2d5','#bac2de','#585b70','#f38ba8','#a6e3a1','#f9e2af','#89b4fa','#cba6f7','#94e2d5','#a6adc8']"
+    dconf write "${GT_PATH}scrollback-lines" "10000"
+    dconf write "${GT_PATH}scrollback-unlimited" "false"
+    dconf write "${GT_PATH}audible-bell" "false"
+    dconf write "${GT_PATH}bold-is-bright" "false"
+    dconf write "${GT_PATH}default-size-columns" "120"
+    dconf write "${GT_PATH}default-size-rows" "35"
+
+    ok "GNOME Terminal profile configured"
+  else
+    warn "Could not detect GNOME Terminal profile — skipping"
+  fi
+else
+  warn "dconf/gsettings not found — skipping GNOME Terminal config"
+fi
+
+# ============================================================
+# 13. Done
 # ============================================================
 echo ""
 printf "${CYAN}============================================================${NC}\n"
@@ -214,9 +273,9 @@ printf "${GREEN}  Ubuntu setup complete!${NC}\n"
 printf "${CYAN}============================================================${NC}\n"
 echo ""
 echo "What was installed:"
-echo "  Terminal:  Kitty (GPU-accelerated, cyberpunk theme)"
-echo "  Prompt:    Starship (powerline segments)"
-echo "  Shell:     Bash + starship + atuin + fzf"
+echo "  Terminal:  GNOME Terminal + Kitty (Catppuccin Mocha theme)"
+echo "  Prompt:    Starship (minimal)"
+echo "  Shell:     Bash + ble.sh + starship + atuin + fzf"
 echo "  History:   Atuin (intelligent Ctrl-R)"
 echo "  Finder:    fzf + fd (Ctrl-T files, Alt-C dirs)"
 echo "  Tools:     eza (ls), bat (cat), btop (top), fastfetch, zoxide (cd)"

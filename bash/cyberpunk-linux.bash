@@ -11,6 +11,9 @@
 # Ensure ~/.local/bin is in PATH (starship, zoxide, atuin install here)
 [[ -d "$HOME/.local/bin" ]] && export PATH="$HOME/.local/bin:$PATH"
 
+# --- ble.sh (autosuggestions, syntax highlighting, better completion) ---
+[[ -f "$HOME/.local/share/blesh/ble.sh" ]] && source "$HOME/.local/share/blesh/ble.sh" --noattach
+
 # --- Starship Prompt ---
 if command -v starship &>/dev/null; then
   eval "$(starship init bash)"
@@ -81,3 +84,6 @@ if command -v fastfetch &>/dev/null; then
     fastfetch
   fi
 fi
+
+# --- ble.sh attach (must be last) ---
+[[ ${BLE_VERSION-} ]] && ble-attach

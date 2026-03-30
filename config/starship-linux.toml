@@ -1,101 +1,36 @@
-# Cyberpunk / Retro Hacker Starship Prompt (Linux)
-# Neon colors on dark — sci-fi terminal aesthetic
+# Minimal Starship Prompt (Linux)
 
 format = """
-[](fg:#9A348E)\
-$os\
-[](bg:#DA627D fg:#9A348E)\
-$hostname\
-[](fg:#DA627D bg:#DA627D)\
-$directory\
-[](fg:#DA627D bg:#FCA17D)\
-$git_branch\
-$git_status\
-[](fg:#FCA17D bg:#86BBD8)\
-$python\
-$rust\
-$golang\
-$nodejs\
-[](fg:#86BBD8 bg:#06969A)\
-$docker_context\
-$conda\
-[](fg:#06969A bg:#33658A)\
-$time\
-[ ](fg:#33658A)\
+$directory $conda$cmd_duration\
 $line_break\
 $character"""
 
-[os]
-disabled = false
-style = "bg:#9A348E fg:#090c0c"
-
-[os.symbols]
-Ubuntu = "  "
-Linux = "  "
-
-[hostname]
-ssh_only = true
-style = "bg:#DA627D fg:#090c0c"
-format = "[$hostname ]($style)"
-
 [directory]
-style = "bg:#DA627D fg:#090c0c"
-format = "[ $path ]($style)"
-truncation_length = 3
-truncation_symbol = ".../"
+style = "bold #bd93f9"
+format = "[$path]($style)"
+truncation_length = 5
+truncation_symbol = "~/"
 
 [directory.substitutions]
 "Documents" = "DOC"
 "Downloads" = "DL"
 
-[git_branch]
-symbol = ""
-style = "bg:#FCA17D fg:#090c0c"
-format = '[ $symbol $branch ]($style)'
-
-[git_status]
-style = "bg:#FCA17D fg:#090c0c"
-format = '[$all_status$ahead_behind ]($style)'
-
-[python]
-symbol = ""
-style = "bg:#86BBD8 fg:#090c0c"
-format = '[ $symbol ($version)(\($virtualenv\)) ]($style)'
-
-[rust]
-symbol = ""
-style = "bg:#86BBD8 fg:#090c0c"
-format = '[ $symbol ($version) ]($style)'
-
-[golang]
-symbol = ""
-style = "bg:#86BBD8 fg:#090c0c"
-format = '[ $symbol ($version) ]($style)'
-
-[nodejs]
-symbol = ""
-style = "bg:#86BBD8 fg:#090c0c"
-format = '[ $symbol ($version) ]($style)'
-
-[docker_context]
-symbol = ""
-style = "bg:#06969A fg:#090c0c"
-format = '[ $symbol $context ]($style)'
-
 [conda]
-style = "bg:#06969A fg:#090c0c"
-format = '[ $symbol $environment ]($style)'
+style = "#ff79c6"
+format = "[$symbol$environment]($style) "
+symbol = ""
+ignore_base = false
 
-[time]
-disabled = false
-time_format = "%R"
-style = "bg:#33658A"
-format = '[  $time ]($style)'
+[cmd_duration]
+min_time = 0
+show_milliseconds = true
+style = "dim #6272a4"
+format = "[$duration]($style)"
 
 [character]
-success_symbol = "[>](bold #00ff9f)"
-error_symbol = "[>](bold #ff0055)"
-vimcmd_symbol = "[<](bold #00ff9f)"
+success_symbol = "[>](bold #50fa7b)"
+error_symbol = "[>](bold #ff5555)"
+vimcmd_symbol = "[<](bold #50fa7b)"
 
 [line_break]
 disabled = false
