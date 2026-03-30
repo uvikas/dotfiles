@@ -1,6 +1,6 @@
 # dotfiles
 
-Personal dotfiles with a cyberpunk/retro hacker macOS terminal theme.
+Personal dotfiles with cyberpunk/retro hacker terminal themes for macOS and Ubuntu.
 
 ## Quick Start
 
@@ -8,11 +8,12 @@ Personal dotfiles with a cyberpunk/retro hacker macOS terminal theme.
 git clone <repo> ~/dotfiles
 cd ~/dotfiles
 
-./setup.sh          # basic: vim, inputrc, gitconfig (any platform)
-./setup-mac.sh      # macOS: brew tools, fonts, iTerm2, cyberpunk shell
+./setup.sh              # basic: vim, inputrc, gitconfig (any platform)
+./setup-mac.sh          # macOS: brew tools, fonts, iTerm2, cyberpunk shell
+./setup-ubuntu.sh       # Ubuntu 24.04: apt tools, fonts, Kitty, tmux, cyberpunk shell
 ```
 
-Both scripts are idempotent — safe to re-run.
+All scripts are idempotent — safe to re-run.
 
 ## What's Included
 
@@ -40,18 +41,38 @@ Nerd Fonts: JetBrains Mono, Hack, Iosevka
 
 iTerm2 color schemes: Cyberdyne, Cyberpunk, Cyberpunk Scarlet Protocol, Synthwave, Synthwave Everything, Catppuccin Mocha, Dracula, TokyoNight Storm
 
+### Ubuntu 24.04 (`setup-ubuntu.sh`)
+
+Same CLI tool stack as macOS (starship, fzf, fd, eza, bat, btop, fastfetch, zoxide, atuin, cmatrix), plus:
+
+| Extra | What it does |
+|-------|-------------|
+| Kitty | GPU-accelerated terminal with cyberpunk Catppuccin Mocha theme |
+| tmux | Terminal multiplexer with Catppuccin Mocha status bar |
+| fast-syntax-highlighting | Enhanced zsh syntax coloring |
+
+Handles Ubuntu quirks automatically (`bat`→`batcat`, `fd`→`fdfind` aliases).
+
 ## Layout
 
 ```
 dotfiles/
-  lib.sh                      # shared helpers
-  setup.sh                    # basic dotfiles (any platform)
-  setup-mac.sh                # macOS cyberpunk setup
-  zsh/cyberpunk.zsh           # shell config (sourced from .zshrc)
-  config/starship.toml        # prompt theme
-  config/bat/config           # bat settings
-  iterm2/*.itermcolors        # color schemes
-  vimrc                       # vim config
-  inputrc                     # readline config
-  gitconfig                   # git config
+  lib.sh                          # shared helpers
+  setup.sh                        # basic dotfiles (any platform)
+  setup-mac.sh                    # macOS cyberpunk setup
+  setup-ubuntu.sh                 # Ubuntu 24.04 cyberpunk setup
+  zsh/
+    cyberpunk.zsh                 # macOS shell config
+    cyberpunk-linux.zsh           # Linux shell config
+  config/
+    starship.toml                 # macOS prompt theme
+    starship-linux.toml           # Linux prompt theme (with hostname for SSH)
+    bat/config                    # bat settings (shared)
+    kitty/kitty.conf              # Kitty terminal config
+    kitty/cyberpunk.conf          # Kitty color scheme
+    tmux/tmux.conf                # tmux config + Catppuccin status bar
+  iterm2/*.itermcolors            # macOS iTerm2 color schemes
+  vimrc                           # vim config
+  inputrc                         # readline config
+  gitconfig                       # git config
 ```
