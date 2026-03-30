@@ -1,12 +1,10 @@
 # dotfiles
 
-Terminal setup for macOS (zsh) and Ubuntu (bash). Cyberpunk theme.
+Terminal setup for macOS zsh and Ubuntu bash. Cyberpunk theme.
 
 ## Setup
 
 ```bash
-git clone <repo> ~/dotfiles && cd ~/dotfiles
-
 ./setup.sh          # vim, inputrc, gitconfig
 ./setup-mac.sh      # brew tools, fonts, iTerm2, zsh
 ./setup-ubuntu.sh   # apt tools, fonts, Kitty, tmux, bash
