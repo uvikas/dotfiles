@@ -1,12 +1,5 @@
 #!/bin/bash
-#
-# Basic dotfiles setup (platform-agnostic).
-# Symlinks vim, inputrc, and git configs.
-#
-# Usage:
-#   cd ~/dotfiles && ./setup.sh
-#
-# Idempotent — safe to re-run.
+# Symlink vim, inputrc, gitconfig
 
 set -euo pipefail
 source "$(cd "$(dirname "$0")" && pwd)/lib.sh"

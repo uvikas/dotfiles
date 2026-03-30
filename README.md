@@ -1,50 +1,23 @@
 # dotfiles
 
-Personal dotfiles with cyberpunk/retro hacker terminal themes for macOS and Ubuntu.
+Terminal setup for macOS (zsh) and Ubuntu (bash). Cyberpunk theme.
 
-## Quick Start
+## Setup
 
 ```bash
-git clone <repo> ~/dotfiles
-cd ~/dotfiles
+git clone <repo> ~/dotfiles && cd ~/dotfiles
 
-./setup.sh              # basic: vim, inputrc, gitconfig (any platform)
-./setup-mac.sh          # macOS: brew tools, fonts, iTerm2, zsh cyberpunk shell
-./setup-ubuntu.sh       # Ubuntu 24.04: apt tools, fonts, Kitty, tmux, bash cyberpunk shell
+./setup.sh          # vim, inputrc, gitconfig
+./setup-mac.sh      # brew tools, fonts, iTerm2, zsh
+./setup-ubuntu.sh   # apt tools, fonts, Kitty, tmux, bash
 ```
 
-All scripts are idempotent — safe to re-run.
+All scripts are idempotent.
 
-## What's Included
+## Tools
 
-### Basic (`setup.sh`)
-
-Platform-agnostic symlinks for `vimrc`, `inputrc`, `gitconfig`.
-
-### macOS (`setup-mac.sh`)
-
-Shell: **Zsh** with zsh-autosuggestions + zsh-fast-syntax-highlighting
-
-| Tool | Replaces | What it does |
-|------|----------|-------------|
-| starship | zsh prompt | Cyberpunk powerline prompt (Rust) |
-| fzf + fd | find | Fuzzy file finder (Ctrl-T, Alt-C) |
-| eza | ls | Modern ls with icons, tree, git |
-| bat | cat | Syntax-highlighted cat (Dracula theme) |
-| btop | top/htop | Beautiful system monitor TUI |
-| fastfetch | neofetch | System info splash on shell start |
-| zoxide | cd | Smart cd that learns frequent dirs |
-| atuin | Ctrl-R | Intelligent shell history with TUI |
-| cmatrix | - | Matrix rain for aesthetics |
+starship, fzf, fd, eza, bat, btop, fastfetch, zoxide, atuin, cmatrix
 
 Nerd Fonts: JetBrains Mono, Hack, Iosevka
 
-iTerm2 color schemes: Synthwave Everything
-
-### Ubuntu 24.04 (`setup-ubuntu.sh`)
-
-Shell: **Bash** with starship + atuin + fzf
-
-Same CLI tool stack as macOS (starship, fzf, fd, eza, bat, btop, fastfetch, zoxide, atuin, cmatrix), plus tmux with Catppuccin Mocha status bar.
-
-Handles Ubuntu quirks automatically (`bat`->`batcat`, `fd`->`fdfind`).
+Ubuntu also gets Kitty + tmux.

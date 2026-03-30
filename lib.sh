@@ -1,5 +1,5 @@
 #!/bin/bash
-# Shared helpers for setup scripts
+# Shared helpers
 
 DOTFILES_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
@@ -22,7 +22,6 @@ ask() {
   [[ "$yn" == "y" || "$yn" == "yes" ]]
 }
 
-# Symlink helper: symlink_to <source_relative_to_dotfiles> <target_path>
 symlink_to() {
   local src="$DOTFILES_DIR/$1"
   local dst="$2"

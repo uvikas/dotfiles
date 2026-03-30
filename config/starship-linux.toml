@@ -1,4 +1,4 @@
-# Minimal Starship Prompt (Linux)
+# Starship prompt (Linux)
 
 format = """
 $directory $conda$cmd_duration\
