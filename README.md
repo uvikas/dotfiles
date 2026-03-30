@@ -9,8 +9,8 @@ git clone <repo> ~/dotfiles
 cd ~/dotfiles
 
 ./setup.sh              # basic: vim, inputrc, gitconfig (any platform)
-./setup-mac.sh          # macOS: brew tools, fonts, iTerm2, cyberpunk shell
-./setup-ubuntu.sh       # Ubuntu 24.04: apt tools, fonts, Kitty, tmux, cyberpunk shell
+./setup-mac.sh          # macOS: brew tools, fonts, iTerm2, zsh cyberpunk shell
+./setup-ubuntu.sh       # Ubuntu 24.04: apt tools, fonts, Kitty, tmux, bash cyberpunk shell
 ```
 
 All scripts are idempotent — safe to re-run.
@@ -23,9 +23,11 @@ Platform-agnostic symlinks for `vimrc`, `inputrc`, `gitconfig`.
 
 ### macOS (`setup-mac.sh`)
 
+Shell: **Zsh** with zsh-autosuggestions + zsh-fast-syntax-highlighting
+
 | Tool | Replaces | What it does |
 |------|----------|-------------|
-| starship | bash/zsh prompt | Cyberpunk powerline prompt (Rust) |
+| starship | zsh prompt | Cyberpunk powerline prompt (Rust) |
 | fzf + fd | find | Fuzzy file finder (Ctrl-T, Alt-C) |
 | eza | ls | Modern ls with icons, tree, git |
 | bat | cat | Syntax-highlighted cat (Dracula theme) |
@@ -35,13 +37,13 @@ Platform-agnostic symlinks for `vimrc`, `inputrc`, `gitconfig`.
 | atuin | Ctrl-R | Intelligent shell history with TUI |
 | cmatrix | - | Matrix rain for aesthetics |
 
-Zsh plugins: **zsh-autosuggestions**, **zsh-fast-syntax-highlighting**
-
 Nerd Fonts: JetBrains Mono, Hack, Iosevka
 
 iTerm2 color schemes: Cyberdyne, Cyberpunk, Cyberpunk Scarlet Protocol, Synthwave, Synthwave Everything, Catppuccin Mocha, Dracula, TokyoNight Storm
 
 ### Ubuntu 24.04 (`setup-ubuntu.sh`)
+
+Shell: **Bash** with starship + atuin + fzf
 
 Same CLI tool stack as macOS (starship, fzf, fd, eza, bat, btop, fastfetch, zoxide, atuin, cmatrix), plus:
 
@@ -49,9 +51,8 @@ Same CLI tool stack as macOS (starship, fzf, fd, eza, bat, btop, fastfetch, zoxi
 |-------|-------------|
 | Kitty | GPU-accelerated terminal with cyberpunk Catppuccin Mocha theme |
 | tmux | Terminal multiplexer with Catppuccin Mocha status bar |
-| fast-syntax-highlighting | Enhanced zsh syntax coloring |
 
-Handles Ubuntu quirks automatically (`bat`→`batcat`, `fd`→`fdfind` aliases).
+Handles Ubuntu quirks automatically (`bat`->`batcat`, `fd`->`fdfind`).
 
 ## Layout
 
@@ -62,8 +63,9 @@ dotfiles/
   setup-mac.sh                    # macOS cyberpunk setup
   setup-ubuntu.sh                 # Ubuntu 24.04 cyberpunk setup
   zsh/
-    cyberpunk.zsh                 # macOS shell config
-    cyberpunk-linux.zsh           # Linux shell config
+    cyberpunk.zsh                 # macOS zsh config
+  bash/
+    cyberpunk-linux.bash          # Ubuntu bash config
   config/
     starship.toml                 # macOS prompt theme
     starship-linux.toml           # Linux prompt theme (with hostname for SSH)

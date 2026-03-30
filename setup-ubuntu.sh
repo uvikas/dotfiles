@@ -2,6 +2,7 @@
 #
 # Ubuntu 24.04 terminal setup — cyberpunk/retro hacker theme.
 # Installs apt packages, Nerd Fonts, Kitty, tmux, and shell config.
+# Uses Bash (not zsh).
 #
 # Usage:
 #   cd ~/dotfiles && ./setup-ubuntu.sh
@@ -39,7 +40,6 @@ fi
 info "Installing APT packages..."
 
 APT_PACKAGES=(
-  zsh
   fzf
   fd-find
   bat
@@ -54,8 +54,7 @@ APT_PACKAGES=(
   unzip
   fontconfig
   xclip
-  zsh-autosuggestions
-  zsh-syntax-highlighting
+  bash-completion
 )
 
 for pkg in "${APT_PACKAGES[@]}"; do
@@ -123,7 +122,6 @@ mkdir -p "$FONT_DIR"
 
 install_nerd_font() {
   local font_name="$1"
-  # Check if any files from this font already exist
   if ls "$FONT_DIR"/${font_name}NerdFont* &>/dev/null 2>&1; then
     ok "Already installed: $font_name Nerd Font"
     return 0
@@ -150,21 +148,7 @@ fc-cache -f "$FONT_DIR"
 ok "Font cache updated"
 
 # ============================================================
-# 9. fast-syntax-highlighting (git clone)
-# ============================================================
-info "Checking fast-syntax-highlighting..."
-FSH_DIR="$HOME/.local/share/zsh/plugins/fast-syntax-highlighting"
-if [[ -d "$FSH_DIR" ]]; then
-  ok "Already installed: fast-syntax-highlighting"
-else
-  info "Cloning fast-syntax-highlighting..."
-  mkdir -p "$(dirname "$FSH_DIR")"
-  git clone --depth 1 https://github.com/zdharma-continuum/fast-syntax-highlighting.git "$FSH_DIR"
-  ok "Installed: fast-syntax-highlighting"
-fi
-
-# ============================================================
-# 10. Symlink config files
+# 9. Symlink config files
 # ============================================================
 info "Symlinking config files..."
 
@@ -175,52 +159,37 @@ symlink_to "config/kitty/cyberpunk.conf" "$HOME/.config/kitty/cyberpunk.conf"
 symlink_to "config/tmux/tmux.conf"       "$HOME/.config/tmux/tmux.conf"
 
 # ============================================================
-# 11. Wire cyberpunk-linux.zsh into .zshrc
+# 10. Wire cyberpunk-linux.bash into .bashrc
 # ============================================================
 info "Configuring shell..."
 
-ZSHRC="$HOME/.zshrc"
-SOURCE_LINE="source \"$DOTFILES_DIR/zsh/cyberpunk-linux.zsh\""
-
-# Ensure .zshrc exists
-touch "$ZSHRC"
+BASHRC="$HOME/.bashrc"
+SOURCE_LINE="source \"$DOTFILES_DIR/bash/cyberpunk-linux.bash\""
 
 # Add PATH for ~/.local/bin if not present
-if ! grep -qF '.local/bin' "$ZSHRC"; then
+if ! grep -qF '.local/bin' "$BASHRC" 2>/dev/null; then
   {
     echo ""
     echo '# Local binaries'
     echo 'export PATH="$HOME/.local/bin:$PATH"'
-  } >> "$ZSHRC"
-  ok "Added ~/.local/bin to PATH in .zshrc"
+  } >> "$BASHRC"
+  ok "Added ~/.local/bin to PATH in .bashrc"
 fi
 
 # Add cyberpunk source line if not present
-if grep -qF "cyberpunk-linux.zsh" "$ZSHRC"; then
-  ok "cyberpunk-linux.zsh already sourced in .zshrc"
+if grep -qF "cyberpunk-linux.bash" "$BASHRC" 2>/dev/null; then
+  ok "cyberpunk-linux.bash already sourced in .bashrc"
 else
   {
     echo ""
     echo "# Cyberpunk terminal (managed by dotfiles)"
     echo "$SOURCE_LINE"
-  } >> "$ZSHRC"
-  ok "Added source line to .zshrc"
+  } >> "$BASHRC"
+  ok "Added source line to .bashrc"
 fi
 
 # ============================================================
-# 12. Default shell
-# ============================================================
-info "Checking default shell..."
-if [[ "$SHELL" == *zsh ]]; then
-  ok "Default shell is already zsh"
-else
-  info "Setting default shell to zsh..."
-  chsh -s "$(which zsh)"
-  ok "Default shell set to zsh (takes effect on next login)"
-fi
-
-# ============================================================
-# 13. Done
+# 11. Done
 # ============================================================
 echo ""
 printf "${CYAN}============================================================${NC}\n"
@@ -230,7 +199,7 @@ echo ""
 echo "What was installed:"
 echo "  Terminal:  Kitty (GPU-accelerated, cyberpunk theme)"
 echo "  Prompt:    Starship (powerline segments)"
-echo "  Shell:     Zsh + autosuggestions + fast-syntax-highlighting"
+echo "  Shell:     Bash + starship + atuin + fzf"
 echo "  History:   Atuin (intelligent Ctrl-R)"
 echo "  Finder:    fzf + fd (Ctrl-T files, Alt-C dirs)"
 echo "  Tools:     eza (ls), bat (cat), btop (top), fastfetch, zoxide (cd)"
@@ -247,5 +216,5 @@ echo "  Splits:    prefix + | (horizontal), prefix + - (vertical)"
 echo "  Navigate:  prefix + h/j/k/l"
 echo "  Reload:    prefix + r"
 echo ""
-echo "Restart your terminal or run: source ~/.zshrc"
+echo "Restart your terminal or run: source ~/.bashrc"
 echo ""

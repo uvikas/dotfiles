@@ -1,53 +1,33 @@
-# Cyberpunk Terminal Setup (Linux/Ubuntu)
+# Cyberpunk Terminal Setup (Linux/Ubuntu — Bash)
 # Sourced automatically by setup-ubuntu.sh. Or manually:
-#   source /path/to/dotfiles/zsh/cyberpunk-linux.zsh
+#   source /path/to/dotfiles/bash/cyberpunk-linux.bash
 #
-# Requires: apt install zsh fzf fd-find bat eza btop tmux kitty cmatrix \
-#   zsh-autosuggestions zsh-syntax-highlighting
+# Requires: apt install fzf fd-find bat eza btop tmux kitty cmatrix
 # Also: starship, zoxide, atuin, fastfetch (see setup-ubuntu.sh)
 
 # Guard: skip if not interactive
-[[ ! -o interactive ]] && return
+[[ $- != *i* ]] && return
 
 # Ensure ~/.local/bin is in PATH (starship, zoxide, atuin install here)
 [[ -d "$HOME/.local/bin" ]] && export PATH="$HOME/.local/bin:$PATH"
 
-# Ubuntu binary name aliases (must come before all other tool usage)
-command -v batcat &>/dev/null && ! command -v bat &>/dev/null && alias bat='batcat'
-command -v fdfind &>/dev/null && ! command -v fd &>/dev/null && alias fd='fdfind'
-
-# --- Completions ---
-fpath=(/usr/share/zsh/vendor-completions $fpath)
-autoload -Uz compinit && compinit -C
-
 # --- Starship Prompt ---
 if command -v starship &>/dev/null; then
-  eval "$(starship init zsh)"
+  eval "$(starship init bash)"
 fi
 
-# --- Plugins ---
-[[ -f /usr/share/zsh-autosuggestions/zsh-autosuggestions.zsh ]] && \
-  source /usr/share/zsh-autosuggestions/zsh-autosuggestions.zsh
-
-# Prefer fast-syntax-highlighting (git-cloned), fall back to apt version
-if [[ -f "$HOME/.local/share/zsh/plugins/fast-syntax-highlighting/fast-syntax-highlighting.plugin.zsh" ]]; then
-  source "$HOME/.local/share/zsh/plugins/fast-syntax-highlighting/fast-syntax-highlighting.plugin.zsh"
-elif [[ -f /usr/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh ]]; then
-  source /usr/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
-fi
-
-# --- Atuin (intelligent shell history) ---
+# --- Atuin (intelligent shell history — Ctrl-R) ---
 if command -v atuin &>/dev/null; then
-  eval "$(atuin init zsh --disable-up-arrow)"
+  eval "$(atuin init bash --disable-up-arrow)"
 fi
 
 # --- fzf (fuzzy finder — Ctrl-T files, Alt-C dirs) ---
 if command -v fzf &>/dev/null; then
   # Ubuntu apt fzf uses file-based shell integration
-  [[ -f /usr/share/doc/fzf/examples/key-bindings.zsh ]] && \
-    source /usr/share/doc/fzf/examples/key-bindings.zsh
-  [[ -f /usr/share/doc/fzf/examples/completion.zsh ]] && \
-    source /usr/share/doc/fzf/examples/completion.zsh
+  [[ -f /usr/share/doc/fzf/examples/key-bindings.bash ]] && \
+    source /usr/share/doc/fzf/examples/key-bindings.bash
+  [[ -f /usr/share/bash-completion/completions/fzf ]] && \
+    source /usr/share/bash-completion/completions/fzf
 
   # Cyberpunk fzf color theme (Catppuccin Mocha)
   export FZF_DEFAULT_OPTS="
@@ -79,7 +59,7 @@ fi
 
 # --- Zoxide (smart cd — learns frequent dirs) ---
 if command -v zoxide &>/dev/null; then
-  eval "$(zoxide init zsh)"
+  eval "$(zoxide init bash)"
 fi
 
 # --- Modern CLI Aliases ---
@@ -97,7 +77,7 @@ command -v btop &>/dev/null && alias top='btop'
 
 # --- Fastfetch on new top-level shell ---
 if command -v fastfetch &>/dev/null; then
-  if [[ $SHLVL -eq 1 ]] && [[ -z "$INSIDE_EMACS" ]] && [[ -z "$VSCODE_INJECTION" ]] && [[ -z "$TMUX" ]]; then
+  if [[ $SHLVL -eq 1 ]] && [[ -z "${INSIDE_EMACS:-}" ]] && [[ -z "${VSCODE_INJECTION:-}" ]] && [[ -z "${TMUX:-}" ]]; then
     fastfetch
   fi
 fi
